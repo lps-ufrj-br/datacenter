@@ -9,7 +9,7 @@ services:
   #  restart: unless-stopped
   #  container_name: www
 
-  redirect:
+  redirect_site:
     image: morbz/docker-web-redirect
     restart: always
     environment:
@@ -17,6 +17,15 @@ services:
       - REDIRECT_TARGET=https://sites.google.com/lps.ufrj.br/lps/início
     ports:
       - "80:80"
+
+  redirect_gitlab:
+    image: morbz/docker-web-redirect
+    restart: always
+    environment:
+      - VIRTUAL_HOST=gitlab.lps.ufrj.br
+      - REDIRECT_TARGET=https://gitlab.com/lps.ufrj.br
+    ports:
+      - "81:80"
 
   #paf:
   #  image: "gabrielmilan/www-lps:paf-4.0"

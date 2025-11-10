@@ -3,7 +3,7 @@
 ;
 $TTL      7200
 @     IN   SOA       ns.lps.ufrj.br. netadmin.lps.ufrj.br. (
-           2025110500    ; Serial (YOU NEED TO CHANGE THIS EVERY UPDATE)
+           2025110501    ; Serial (YOU NEED TO CHANGE THIS EVERY UPDATE)
            7200          ; Refresh (2h)
            3600          ; Retry (1h)
            31536000      ; Expire (1y)
@@ -91,15 +91,14 @@ slurmweb-server             IN    A     146.164.147.9   ; sites
 ; hosted into service02
 login                       IN    A     146.164.147.41   ; login
 indico-server               IN    A     146.164.147.42  ; 
-postgres-server             IN    A     146.164.147.43  ; 
+castor-server               IN    A     146.164.147.43  ; 
 runner-server               IN    A     146.164.147.44  ; 
-
 
 
 www                         IN    CNAME proxy-server.lps.ufrj.br.
 pgadmin                     IN    CNAME proxy-server.lps.ufrj.br.
 indico                      IN    CNAME proxy-server.lps.ufrj.br.
-
+gitlab                      IN    CNAME proxy-server.lps.ufrj.br.
 
 
 

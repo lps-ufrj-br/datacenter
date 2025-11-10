@@ -1,0 +1,69 @@
+version: "3"
+services: 
+  
+  web_report:
+    image: "tbbrics/dorothy-report-web:1.5.10"
+    environment:
+      DB_HOST_NAME: "db_repor"
+      IMAGE_SERVICE_HOST: "https://dorothy-image.lps.ufrj.br"
+      IMAGE_SERVICE_TOKEN: "bce9e5011729456a562ff94bf3c5d5069c9ea54c"
+      PRODUCTION: 'true'
+    command: "./run_server.sh"
+    ports:
+      - "8081:80"
+    volumes:
+      - /mnt/brics_data/public/http_server/dorothy/volumes/report/imagesrep:/imagesrep
+    restart: unless-stopped
+  db_report:
+    image: "postgres:13.0"
+    ports:
+      - "8085:5432"
+    environment:
+      POSTGRES_DB: "postgres"
+      POSTGRES_PASSWORD: "R2E)5Dqd5ixizrU>+[mR"
+      POSTGRES_USER: "postgres"
+      #PGDATA: "/var/lib/postgresql/data/postgres"
+    volumes:
+      - /mnt/brics_data/public/http_server/dorothy/volumes/report/postgres/data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  web_image:
+    image: "tbbrics/dorothy-image-service-web:v1.10.4"
+    environment:
+      PRODUCTION: "true"
+    command: "./run_server.sh"
+    volumes:
+      - /mnt/brics_data/public/http_server/dorothy/volumes/image/imagesrep:/imagesrep
+      - /mnt/brics_data/public:/imagesrep/synthetic
+    ports:
+      - 8080:80
+    restart: unless-stopped
+    depends_on:
+      - db
+  notebook_image:
+    image: "tbbrics/dorothy-image-service-web:v1.10.4"
+    environment:
+      PRODUCTION: "true"
+    command: python manage.py shell_plus --notebook
+    volumes:
+      - /mnt/brics_data/public/http_server/dorothy/volumes/image/imagesrep:/imagesrep
+      - /mnt/brics_data/public:/imagesrep/synthetic
+      - /mnt/brics_data/public/http_server/dorothy/notebooks:/service/notebooks
+    ports:
+      - 8888:8888
+    restart: unless-stopped
+    depends_on:
+      - web_image
+  db:
+    image: "postgres:13.0"
+    environment:
+      POSTGRES_DB: "postgres"
+      POSTGRES_PASSWORD: "R2E)5Dqd5ixizrU>+[mR"
+      POSTGRES_USER: "postgres"
+      PGDATA: "/var/lib/postgresql/data/postgres"
+    volumes:
+      - /mnt/brics_data/public/http_server/dorothy/volumes/image/postgres:/var/lib/postgresql/data
+    restart: unless-stopped
+    ports:
+      - 8084:5432
+
