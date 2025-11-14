@@ -1,6 +1,6 @@
 
 
-address=146.164.147.43
+address=146.164.147.44
 network_interface=$(ip link | awk -F: '$0 !~ "lo|vir|wl|^[^0-9]"{print $2;getline}')
 
 
@@ -22,9 +22,9 @@ apt install -y nfs-common
 #
 # NFS
 #
-mkdir -p /mnt/brics_data
+mkdir -p /mnt/shared/storage03/projects
 mkdir -p /mnt/market_place
-echo "10.1.1.203:/volume1/brics_data /mnt/brics_data nfs rsize=32768,wsize=32768,bg,sync,nolock 0 0" >> /etc/fstab
+echo "10.1.1.204:/shares/projects /mnt/shared/storage03/projects nfs rsize=32768,wsize=32768,bg,sync,nolock 0 0" >> /etc/fstab
 echo "10.1.1.202:/volume1/market_place /mnt/market_place nfs rsize=32768,wsize=32768,bg,sync,nolock 0 0" >> /etc/fstab
 
 

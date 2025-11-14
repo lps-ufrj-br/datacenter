@@ -1,7 +1,7 @@
 #
 # Install dependencies
 #
-apt install -y htop vim git sshpass curl wget build-essential python3-virtualenv python-is-python3 screen rsync
+apt install -y htop vim git rclone sshpass curl wget build-essential python3-virtualenv python-is-python3 screen rsync
 
 
 
