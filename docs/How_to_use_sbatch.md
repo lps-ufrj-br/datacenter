@@ -259,4 +259,4 @@ A job ID will be returned for each submitted job. You can then use `squeue` to m
 
 # LPS page:
 
-Back to the [main](https://sites.google.com/lps.ufrj.br/lps/inicio) page!
+Back to the [main](https://sites.google.com/lps.ufrj.br/lps/início) page!

@@ -155,4 +155,4 @@ sbatch my_job.sh
 
 # LPS page:
 
-Back to the [main](https://sites.google.com/lps.ufrj.br/lps/inicio) page!
+Back to the [main](https://sites.google.com/lps.ufrj.br/lps/início) page!

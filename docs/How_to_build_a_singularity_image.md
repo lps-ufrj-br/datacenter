@@ -145,4 +145,4 @@ This will confirm that your container is ready for GPU-accelerated PyTorch workl
 
 # LPS page:
 
-Back to the [main](https://sites.google.com/lps.ufrj.br/lps/inicio) page!
+Back to the [main](https://sites.google.com/lps.ufrj.br/lps/início) page!
