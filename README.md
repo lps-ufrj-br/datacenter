@@ -1,4 +1,7 @@
-## Datacenter
+[![pages](https://github.com/lps-ufrj-br/datacenter/actions/workflows/pages.yml/badge.svg)](https://github.com/lps-ufrj-br/datacenter/actions/workflows/pages.yml)
+
+
+## Datacenter ([Website](https://lps-ufrj-br.github.io/datacenter))
 
 
 This repository contains all scripts and topology of the Caloba cluster. The Caloba cluster is a High-Performance Computing (HPC) environment based on SLURM, designed to efficiently manage and schedule jobs across multiple nodes, providing users with the resources they need for computational tasks.
