@@ -3,7 +3,7 @@
 ;
 $TTL  7200
 @ IN  SOA ns.lps.ufrj.br. netadmin.lps.ufrj.br. (
-      2025110500  ; Serial
+      2026011001  ; Serial
       7200        ; Refresh (2h)
       3600        ; Retry (1h)
       31536000    ; Expire (1y)
@@ -18,6 +18,8 @@ $TTL  7200
 ;
 
 ; CPU small
+10  IN  PTR caloba10.lps.ufrj.br.
+11  IN  PTR caloba11.lps.ufrj.br.
 12  IN  PTR caloba12.lps.ufrj.br.
 13  IN  PTR caloba13.lps.ufrj.br.
 14  IN  PTR caloba14.lps.ufrj.br.
@@ -26,28 +28,26 @@ $TTL  7200
 17  IN  PTR caloba17.lps.ufrj.br.
 18  IN  PTR caloba18.lps.ufrj.br.
 19  IN  PTR caloba19.lps.ufrj.br.
+20  IN  PTR caloba20.lps.ufrj.br.
+21  IN  PTR caloba21.lps.ufrj.br.
+
 
 
 ; CPU large
-50  IN  PTR caloba51.lps.ufrj.br.
-51  IN  PTR caloba51.lps.ufrj.br.
-52  IN  PTR caloba52.lps.ufrj.br.
-53  IN  PTR caloba53.lps.ufrj.br.
-54  IN  PTR caloba54.lps.ufrj.br.
-55  IN  PTR caloba55.lps.ufrj.br.
-56  IN  PTR caloba56.lps.ufrj.br.
-57  IN  PTR caloba57.lps.ufrj.br.
-58  IN  PTR caloba58.lps.ufrj.br.
+50  IN  PTR caloba50.lps.ufrj.br.
+
 
 
 ; GPU
-70  IN  PTR caloba70.lps.ufrj.br.
-71  IN  PTR caloba71.lps.ufrj.br.
-72  IN  PTR caloba72.lps.ufrj.br.
-73  IN  PTR caloba73.lps.ufrj.br.
-74  IN  PTR caloba74.lps.ufrj.br.
-75  IN  PTR caloba75.lps.ufrj.br.
-76  IN  PTR caloba76.lps.ufrj.br.
+60  IN  PTR caloba60.lps.ufrj.br.
+61  IN  PTR caloba61.lps.ufrj.br.
+62  IN  PTR caloba62.lps.ufrj.br.
+63  IN  PTR caloba63.lps.ufrj.br.
+64  IN  PTR caloba64.lps.ufrj.br.
+65  IN  PTR caloba65.lps.ufrj.br.
+
+
+66  IN  PTR caloba66.lps.ufrj.br.
 77  IN  PTR caloba77.lps.ufrj.br.
 78  IN  PTR caloba78.lps.ufrj.br.
 79  IN  PTR caloba79.lps.ufrj.br.
@@ -57,11 +57,10 @@ $TTL  7200
 83  IN  PTR caloba83.lps.ufrj.br.
 84  IN  PTR caloba84.lps.ufrj.br.
 85  IN  PTR caloba85.lps.ufrj.br.
-
-
-
-
-; GPU large
+86  IN  PTR caloba86.lps.ufrj.br.
+87  IN  PTR caloba87.lps.ufrj.br.
+88  IN  PTR caloba88.lps.ufrj.br.
+89  IN  PTR caloba89.lps.ufrj.br.
 90  IN  PTR caloba90.lps.ufrj.br.
 91  IN  PTR caloba91.lps.ufrj.br.
 92  IN  PTR caloba92.lps.ufrj.br.

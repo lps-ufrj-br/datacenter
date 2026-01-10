@@ -1,0 +1,265 @@
+{
+    "storage":{
+        "storage01":{
+            "server":"10.1.1.202",
+            "path":"/volume1/proxmox"
+        }
+    },
+    "cluster":{
+        "cpu-large":{
+            "host"       : "caloba-v13",
+            "ip_address" : "10.1.1.113"
+        },
+        "gpu-large":{
+            "host"       : "caloba-v08",
+            "ip_address" : "10.1.1.108"
+        },
+        "gpu":{
+            "host"       : "caloba-v01",
+            "ip_address" : "10.1.1.101"
+        }
+    },
+    "images":{
+        "paths" : {
+            "cpu":"/mnt/pve/storage01/dump/vzdump-qemu-501-2025_11_02-11_05_08.vma.zst", 
+            "gpu":"/mnt/pve/storage01/dump/vzdump-qemu-501-2025_11_03-16_09_02.vma.zst"
+        },
+        "hostname": "slurm-node"
+    },
+    "vm":{
+        
+            "caloba51":{
+                "host"      : "caloba-v13",
+                "ip_address": "10.1.1.51",
+                "vmid"      : 351,
+                "sockets"   : 2,
+                "cores"     : 20,
+                "memory_mb" : 128000,
+                "storage"   : "storage01",
+                "vm_name"    : "caloba51",
+                "image"     : "cpu",
+                "pci"       : ""
+            },
+            "caloba52":{
+                "host"      : "caloba-v14",
+                "ip_address": "10.1.1.52",
+                "vmid"      : 352,
+                "sockets"   : 2,
+                "cores"     : 20,
+                "memory_mb" : 128000,
+                "storage"   : "storage01",
+                "vm_name"    : "caloba52",
+                "image"     : "cpu",
+                "pci"       : ""
+
+            },
+            "caloba53":{
+                "host"      : "caloba-v15",
+                "ip_address": "10.1.1.53",
+                "vmid"      : 353,
+                "sockets"   : 2,
+                "cores"     : 20,
+                "memory_mb" : 128000,
+                "storage"   : "storage01",
+                "vm_name"    : "caloba53",
+                "image"     : "cpu",
+                "pci"       : ""
+
+            },
+            "caloba54":{
+                "host"      : "caloba-v16",
+                "ip_address": "10.1.1.54",
+                "vmid"      : 354,
+                "sockets"   : 2,
+                "cores"     : 24,
+                "memory_mb" : 128000,
+                "storage"   : "storage01",
+                "vm_name"    : "caloba54",
+                "image"     : "cpu",
+                "pci"       : ""
+            },
+            "caloba71":{
+                "host"      : "caloba-v01",
+                "ip_address": "10.1.1.71",
+                "vmid"      : 371,
+                "sockets"   : 1,
+                "cores"     : 10,
+                "memory_mb" : 30720,
+                "storage"   : "storage01",
+                "vm_name"    : "caloba71",
+                "image"     : "gpu",
+                "pci"       : "0000:01:00"
+
+            },
+            "caloba72":{
+                "host"      : "caloba-v01",
+                "ip_address": "10.1.1.72",
+                "vmid"      : 372,
+                "sockets"   : 1,
+                "cores"     : 10,
+                "memory_mb" : 30720,
+                "storage"   : "storage01",
+                "vm_name"    : "caloba72",
+                "image"     : "gpu",
+                "pci"       : "0000:05:00"
+
+            },
+            "caloba73":{
+                "host"      : "caloba-v02",
+                "ip_address": "10.1.1.73",
+                "vmid"      : 373,
+                "sockets"   : 1,
+                "cores"     : 8,
+                "memory_mb" : 30720,
+                "storage"   : "storage01",
+                "vm_name"    : "caloba73",
+                "image"     : "gpu",
+                "pci"       : "0000:01:00"
+            },
+            "caloba74":{
+                "host"      : "caloba-v02",
+                "ip_address": "10.1.1.74",
+                "vmid"      : 374,
+                "sockets"   : 1,
+                "cores"     : 8,
+                "memory_mb" : 30720,
+                "storage"   : "storage01",
+                "vm_name"    : "caloba74",
+                "image"     : "gpu",
+                "pci"       : "0000:05:00"
+            },
+            "caloba75":{
+                "host"      : "caloba-v03",
+                "ip_address": "10.1.1.75",
+                "vmid"      : 375,
+                "sockets"   : 1,
+                "cores"     : 8,
+                "memory_mb" : 30720,
+                "storage"   : "storage01",
+                "vm_name"    : "caloba75",
+                "image"     : "gpu",
+                "pci"       : "0000:01:00"
+            },
+            "caloba76":{
+                "host"      : "caloba-v03",
+                "ip_address": "10.1.1.76",
+                "vmid"      : 376,
+                "sockets"   : 1,
+                "cores"     : 8,
+                "memory_mb" : 30720,
+                "storage"   : "storage01",
+                "vm_name"    : "caloba76",
+                "image"     : "gpu",
+                "pci"       : "0000:03:00"
+            },
+            "caloba77":{
+                "host"      : "caloba-v04",
+                "ip_address": "10.1.1.77",
+                "vmid"      : 377,
+                "sockets"   : 1,
+                "cores"     : 8,
+                "memory_mb" : 30720,
+                "storage"   : "storage01",
+                "vm_name"    : "caloba77",
+                "image"     : "gpu",
+                "pci"       : ""
+            },
+            "caloba78":{
+                "host"      : "caloba-v04",
+                "ip_address": "10.1.1.78",
+                "vmid"      : 378,
+                "sockets"   : 1,
+                "cores"     : 8,
+                "memory_mb" : 30720,
+                "storage"   : "storage01",
+                "vm_name"    : "caloba78",
+                "image"     : "gpu",
+                "pci"       : "0000:03:00"
+            },
+            "caloba79":{
+                "host"      : "caloba-v05",
+                "ip_address": "10.1.1.79",
+                "vmid"      : 379,
+                "sockets"   : 1,
+                "cores"     : 8,
+                "memory_mb" : 30720,
+                "storage"   : "storage01",
+                "vm_name"    : "caloba79",
+                "image"     : "gpu",
+                "pci"       : "0000:01:00"
+            },
+            "caloba80":{
+                "host"      : "caloba-v05",
+                "ip_address": "10.1.1.80",
+                "vmid"      : 380,
+                "sockets"   : 1,
+                "cores"     : 8,
+                "memory_mb" : 30720,
+                "storage"   : "storage01",
+                "vm_name"    : "caloba80",
+                "image"     : "gpu",
+                "pci"       : "0000:03:00"
+            },
+            "caloba91":{
+                "host"      : "caloba-v08",
+                "ip_address": "10.1.1.91",
+                "vmid"      : 391,
+                "sockets"   : 1,
+                "cores"     : 8,
+                "memory_mb" : 30720,
+                "storage"   : "storage01",
+                "vm_name"    : "caloba91",
+                "image"     : "gpu",
+                "pci"       : "0000:01:00"
+            },
+            "caloba92":{
+                "host"      : "caloba-v08",
+                "ip_address": "10.1.1.92",
+                "vmid"      : 392,
+                "sockets"   : 1,
+                "cores"     : 8,
+                "memory_mb" : 30720,
+                "storage"   : "storage01",
+                "vm_name"    : "caloba92",
+                "image"     : "gpu",
+                "pci"       : "0000:02:00"
+            },
+            "caloba93":{
+                "host"      : "caloba-v09",
+                "ip_address": "10.1.1.93",
+                "vmid"      : 393,
+                "sockets"   : 1,
+                "cores"     : 10,
+                "memory_mb" : 30720,
+                "storage"   : "storage01",
+                "vm_name"    : "caloba93",
+                "image"     : "gpu",
+                "pci"       : "0000:01:00"
+            },
+            "caloba94":{
+                "host"      : "caloba-v09",
+                "ip_address": "10.1.1.94",
+                "vmid"      : 394,
+                "sockets"   : 1,
+                "cores"     : 10,
+                "memory_mb" : 30720,
+                "storage"   : "storage01",
+                "vm_name"    : "caloba94",
+                "image"     : "gpu",
+                "pci"       : "0000:05:00"
+            },
+            "caloba95":{
+                "host"      : "caloba-v11",
+                "ip_address": "10.1.1.95",
+                "vmid"      : 395,
+                "sockets"   : 1,
+                "cores"     : 12,
+                "memory_mb" : 61440,
+                "storage"   : "storage01",
+                "vm_name"    : "caloba95",
+                "image"     : "gpu",
+                "pci"       : "0000:01:00"
+            }
+        }
+    
+}

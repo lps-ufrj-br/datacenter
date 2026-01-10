@@ -3,7 +3,7 @@
 ;
 $TTL      7200
 @     IN   SOA       ns.lps.ufrj.br. netadmin.lps.ufrj.br. (
-           2025110501    ; Serial (YOU NEED TO CHANGE THIS EVERY UPDATE)
+           2026011001    ; Serial (YOU NEED TO CHANGE THIS EVERY UPDATE)
            7200          ; Refresh (2h)
            3600          ; Retry (1h)
            31536000      ; Expire (1y)
@@ -157,7 +157,9 @@ dyn-20      IN      A     146.164.147.254
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-; CPU small
+; CPU
+caloba10        IN      A     10.1.1.10
+caloba11        IN      A     10.1.1.11
 caloba12        IN      A     10.1.1.12
 caloba13        IN      A     10.1.1.13
 caloba14        IN      A     10.1.1.14
@@ -166,22 +168,23 @@ caloba16        IN      A     10.1.1.16
 caloba17        IN      A     10.1.1.17
 caloba18        IN      A     10.1.1.18
 caloba19        IN      A     10.1.1.19
+caloba20        IN      A     10.1.1.20
+caloba21        IN      A     10.1.1.21
 
 ; CPU large
 caloba50        IN      A     10.1.1.50
-caloba51        IN      A     10.1.1.51
-caloba52        IN      A     10.1.1.52
-caloba53        IN      A     10.1.1.53
-caloba54        IN      A     10.1.1.54
-caloba55        IN      A     10.1.1.55
+
 
 ; GPU
-caloba70        IN      A     10.1.1.70
-caloba71        IN      A     10.1.1.71
-caloba72        IN      A     10.1.1.72
-caloba73        IN      A     10.1.1.73
-caloba74        IN      A     10.1.1.74
-caloba75        IN      A     10.1.1.75
+caloba60        IN      A     10.1.1.60
+caloba61        IN      A     10.1.1.61
+caloba62        IN      A     10.1.1.62
+caloba63        IN      A     10.1.1.63
+caloba64        IN      A     10.1.1.64
+
+
+
+caloba65        IN      A     10.1.1.65
 caloba76        IN      A     10.1.1.76
 caloba77        IN      A     10.1.1.77
 caloba78        IN      A     10.1.1.78
@@ -192,8 +195,10 @@ caloba82        IN      A     10.1.1.82
 caloba83        IN      A     10.1.1.83
 caloba84        IN      A     10.1.1.84
 caloba85        IN      A     10.1.1.85
-
-; GPU large
+caloba86        IN      A     10.1.1.86
+caloba87        IN      A     10.1.1.87
+caloba88        IN      A     10.1.1.88
+caloba89        IN      A     10.1.1.89
 caloba90        IN      A     10.1.1.90
 caloba91        IN      A     10.1.1.91
 caloba92        IN      A     10.1.1.92
@@ -203,7 +208,7 @@ caloba95        IN      A     10.1.1.95
 caloba96        IN      A     10.1.1.96
 caloba97        IN      A     10.1.1.97
 caloba98        IN      A     10.1.1.98
-
+caloba99        IN      A     10.1.1.99
 
 
 ;
