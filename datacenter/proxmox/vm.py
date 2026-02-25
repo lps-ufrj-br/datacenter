@@ -86,7 +86,7 @@ class VM(Playbook):
   
     def configure_network(self) -> bool:
         ip_address = self.vm("ip_address")
-        script_http = "https://raw.githubusercontent.com/jodafons/datacenter/refs/heads/main/data/scripts/configure_network.sh" 
+        script_http = "https://raw.githubusercontent.com/lps-ufrj-br/datacenter/refs/heads/main/data/scripts/configure_network.sh" 
         script_name = script_http.split("/")[-1]
         command = Command(f"configure network on vm {self.vm_name}...")
         command+= f"wget {script_http} && bash {script_name} {self.vm_name} {ip_address}"

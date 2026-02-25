@@ -100,7 +100,7 @@ class Cluster(Playbook):
 
 
     def configure_nodes(self) -> bool:
-      script_http = "https://raw.githubusercontent.com/jodafons/datacenter/refs/heads/main/data/scripts/configure_node.py"
+      script_http = "https://raw.githubusercontent.com/lps-ufrj-br/datacenter/refs/heads/main/data/scripts/configure_node.py"
       script_name = script_http.split("/")[-1]
       command     = Command("configure nodes...")
       command    += f"wget {script_http} && python3 {script_name}"

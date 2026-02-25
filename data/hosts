@@ -9,8 +9,8 @@ login-server ansible_host=146.164.147.41 ansible_user=cluster ansible_password=$
 
 
 [gpu]
-caloba-v01 ansible_host=10.1.1.101 ansible_user=root ansible_password=$CLUSTER_MASTER_KEY
-caloba-v02 ansible_host=10.1.1.102 ansible_user=root ansible_password=$CLUSTER_MASTER_KEY
+#caloba-v01 ansible_host=10.1.1.101 ansible_user=root ansible_password=$CLUSTER_MASTER_KEY
+#caloba-v02 ansible_host=10.1.1.102 ansible_user=root ansible_password=$CLUSTER_MASTER_KEY
 caloba-v09 ansible_host=10.1.1.109 ansible_user=root ansible_password=$CLUSTER_MASTER_KEY
 caloba-v11 ansible_host=10.1.1.111 ansible_user=root ansible_password=$CLUSTER_MASTER_KEY
 
@@ -20,8 +20,8 @@ caloba-v13 ansible_host=10.1.1.113 ansible_user=root ansible_password=$CLUSTER_M
 caloba-v14 ansible_host=10.1.1.114 ansible_user=root ansible_password=$CLUSTER_MASTER_KEY
 caloba-v15 ansible_host=10.1.1.115 ansible_user=root ansible_password=$CLUSTER_MASTER_KEY
 
-[cpu-large]
-caloba-v16 ansible_host=10.1.1.116 ansible_user=root ansible_password=$CLUSTER_MASTER_KEY
+#[cpu-large]
+#caloba-v16 ansible_host=10.1.1.116 ansible_user=root ansible_password=$CLUSTER_MASTER_KEY
 
 
 [vm]
@@ -37,13 +37,16 @@ caloba18 ansible_host=10.1.1.18 ansible_user=cluster ansible_password=$CLUSTER_M
 caloba19 ansible_host=10.1.1.19 ansible_user=cluster ansible_password=$CLUSTER_MASTER_KEY
 caloba20 ansible_host=10.1.1.20 ansible_user=cluster ansible_password=$CLUSTER_MASTER_KEY
 caloba21 ansible_host=10.1.1.21 ansible_user=cluster ansible_password=$CLUSTER_MASTER_KEY
-caloba50 ansible_host=10.1.1.50 ansible_user=cluster ansible_password=$CLUSTER_MASTER_KEY
-caloba60 ansible_host=10.1.1.60 ansible_user=cluster ansible_password=$CLUSTER_MASTER_KEY
-caloba61 ansible_host=10.1.1.61 ansible_user=cluster ansible_password=$CLUSTER_MASTER_KEY
-caloba62 ansible_host=10.1.1.62 ansible_user=cluster ansible_password=$CLUSTER_MASTER_KEY
-caloba63 ansible_host=10.1.1.63 ansible_user=cluster ansible_password=$CLUSTER_MASTER_KEY
-caloba64 ansible_host=10.1.1.64 ansible_user=cluster ansible_password=$CLUSTER_MASTER_KEY
-caloba65 ansible_host=10.1.1.65 ansible_user=cluster ansible_password=$CLUSTER_MASTER_KEY
+#caloba50 ansible_host=10.1.1.50 ansible_user=cluster ansible_password=$CLUSTER_MASTER_KEY
+#caloba60 ansible_host=10.1.1.60 ansible_user=cluster ansible_password=$CLUSTER_MASTER_KEY
+#caloba61 ansible_host=10.1.1.61 ansible_user=cluster ansible_password=$CLUSTER_MASTER_KEY
+#caloba62 ansible_host=10.1.1.62 ansible_user=cluster ansible_password=$CLUSTER_MASTER_KEY
+#caloba63 ansible_host=10.1.1.63 ansible_user=cluster ansible_password=$CLUSTER_MASTER_KEY
+#caloba64 ansible_host=10.1.1.64 ansible_user=cluster ansible_password=$CLUSTER_MASTER_KEY
+#caloba65 ansible_host=10.1.1.65 ansible_user=cluster ansible_password=$CLUSTER_MASTER_KEY
+caloba90 ansible_host=10.1.1.90 ansible_user=cluster ansible_password=$CLUSTER_MASTER_KEY
+caloba91 ansible_host=10.1.1.91 ansible_user=cluster ansible_password=$CLUSTER_MASTER_KEY
+caloba92 ansible_host=10.1.1.92 ansible_user=cluster ansible_password=$CLUSTER_MASTER_KEY
 
 
 
