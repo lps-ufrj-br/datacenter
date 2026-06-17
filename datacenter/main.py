@@ -6,6 +6,7 @@ import sys, re
 from datacenter                   import get_argparser_formatter
 from datacenter.proxmox.cluster   import Cluster, cluster_create_parser, cluster_destroy_parser, cluster_reboot_parser, cluster_ping_parser
 from datacenter.proxmox.vm        import VM, vm_create_parser, vm_destroy_parser,  vm_ping_parser, vm_run_command_parser
+from datacenter.proxmox.vm        import vm_snapshot_parser, vm_set_options_parser, vm_reboot_parser, vm_stop_parser, vm_start_parser
 from datacenter.slurm             import slurm_restart_parser, Slurm
 from datacenter.ansible           import Command
 
@@ -54,6 +55,11 @@ def build_argparser():
     option.add_parser("destroy"   , parents = vm_destroy_parser()   ,help="",formatter_class=get_argparser_formatter())
     option.add_parser("ping"      , parents = vm_ping_parser()      ,help="",formatter_class=get_argparser_formatter())
     option.add_parser("run"       , parents = vm_run_command_parser(), help="", formatter_class=get_argparser_formatter())
+    option.add_parser("snapshot"  , parents = vm_snapshot_parser(),  help="", formatter_class=get_argparser_formatter())
+    option.add_parser("options"   , parents = vm_set_options_parser(),help="", formatter_class=get_argparser_formatter())
+    option.add_parser("reboot"    , parents = vm_reboot_parser(),    help="", formatter_class=get_argparser_formatter())
+    option.add_parser("stop"      , parents = vm_stop_parser(),      help="", formatter_class=get_argparser_formatter())
+    option.add_parser("start"     , parents = vm_start_parser(),     help="", formatter_class=get_argparser_formatter())
     mode.add_parser( "vm"         , parents=[vm_parent]             ,help="",formatter_class=get_argparser_formatter())
     
     
@@ -89,6 +95,23 @@ def run_parser(args):
               vm.destroy()
           elif args.option == "ping":
             vm.ping()
+          elif args.option == "snapshot":
+            vm.snapshot(args.snapshot)
+          elif args.option == "options":
+            vm.set_options(on_boot=args.boot, 
+                           sockets=args.sockets,
+                           cores=args.cores,
+                           memory_mb=args.memory,
+                           cpu=args.cpu,
+                           balloon=args.balloon,
+                           set_device_from_config=args.set_device_from_config,
+                           remove_unused_disks=args.remove_unused_disks)
+          elif args.option == "reboot":
+            vm.reboot()
+          elif args.option == "stop":
+            vm.stop()
+          elif args.option == "start":
+            vm.start()
           elif args.option == "run":
             command = Command("run")
             for line in args.command.split("&&"):

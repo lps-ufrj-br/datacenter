@@ -65,8 +65,9 @@ class VM(Playbook):
         command = Command("restore vm...")
         #command+= f"pvesm set {storage} --format qcow2"
         command+= f"qmrestore {image} {vmid} --storage {storage} --unique --force"
-        command+= f"qm set {vmid} --name {vm_name} --sockets {sockets} --cores {cores} --memory {memory_mb} --cpu host"
+        command+= f"qm set {vmid} --name {vm_name} --sockets {sockets} --cores {cores} --memory {memory_mb} --cpu host --balloon 0"
         command+= f"qm start {vmid}"
+        command+= f"qm set {vmid} --delete unused0"
         return self.run_shell_on_host(command)
     
     
@@ -83,7 +84,19 @@ class VM(Playbook):
         command+= f"qm stop {vmid} && qm start {vmid}"
         return self.run_shell_on_host(command)
   
+    def stop(self) -> bool:
+        vmid  = self.vm("vmid")
+        command = Command(f"stop vm {self.vm_name}...")
+        command+= f"qm stop {vmid}"
+        return self.run_shell_on_host(command)
   
+    def start(self) -> bool:
+        vmid  = self.vm("vmid")
+        command = Command(f"start vm {self.vm_name}...")
+        command+= f"qm start {vmid}"
+        return self.run_shell_on_host(command)
+    
+
     def configure_network(self) -> bool:
         ip_address = self.vm("ip_address")
         script_http = "https://raw.githubusercontent.com/lps-ufrj-br/datacenter/refs/heads/main/data/scripts/configure_network.sh" 
@@ -98,15 +111,49 @@ class VM(Playbook):
     
         return self.run("configure_network.yaml", self.vm_init_name, params)
     
-
-    def configure_options(self) -> bool:
+    def set_options(self, 
+                     on_boot:bool = None,
+                     sockets:int = None,
+                     cores:int = None,
+                     memory_mb:int = None,
+                     cpu:int = None,
+                     balloon:int = None,
+                     set_device_from_config : bool = False,
+                     remove_unused_disks : bool = False,
+                     ) -> bool: 
         vmid  = self.vm("vmid")
-        device = self.vm("pci")
         command = Command(f"set VM options...")
-        if device!="":
-            command+= f"qm set {vmid} -hostpci0 {device}"
-        command+= f"qm set {vmid} --onboot 1"
+        
+        if on_boot is not None:
+            onboot = 1 if on_boot else 0
+            command+= f"qm set {vmid} --onboot {onboot}"
+            
+        if sockets is not None:
+            command+= f"qm set {vmid} --sockets {sockets}"
+
+        if cores is not None:
+            command+= f"qm set {vmid} --cores {cores}"
+        
+        if memory_mb is not None:
+            command+= f"qm set {vmid} --memory {memory_mb}"
+        
+        if cpu is not None:
+            command+= f"qm set {vmid} --cpu {cpu}"
+        
+        if balloon is not None:
+            command+= f"qm set {vmid} --balloon {balloon}"
+
+        if set_device_from_config:
+          device = self.vm("pci")
+          if device!="":
+            command+= f"qm set {vmid} -hostpci0 '{device},pcie=1,rombar=1,x-vga=0'"
+
+        if remove_unused_disks:
+            command+= f"qm set {vmid} --delete unused0"
+
         return self.run_shell_on_host(command)
+    
+   
 
 
     #
@@ -130,13 +177,6 @@ class VM(Playbook):
         ok = self.configure_network()
         if not ok:
             return False    
-        print(f"configure options into {self.vm_name}")
-        ok = self.configure_options()
-        if not ok:
-            return False    
-        print("take a snapshot...")
-        self.snapshot(snapname)
-
         self.reboot()
         return True
 
@@ -174,4 +214,41 @@ def vm_run_command_parser():
                       help = "Run the command, in line")
   return [common_parser(),parser] 
   
-    
+def vm_snapshot_parser():
+  parser = argparse.ArgumentParser(description = '', add_help = False,  formatter_class=get_argparser_formatter())
+  parser.add_argument('-s','--snapshot', action='store', dest='snapshot', required = False, 
+                      help = "The name of the snapshot.", default='base')
+  return [common_parser(),parser] 
+
+def vm_reboot_parser():
+  parser = argparse.ArgumentParser(description = '', add_help = False,  formatter_class=get_argparser_formatter())
+  return [common_parser(),parser]
+
+def vm_stop_parser():
+  parser = argparse.ArgumentParser(description = '', add_help = False,  formatter_class=get_argparser_formatter())
+  return [common_parser(),parser]
+
+def vm_start_parser():
+  parser = argparse.ArgumentParser(description = '', add_help = False,  formatter_class=get_argparser_formatter())
+  return [common_parser(),parser]
+
+def vm_set_options_parser():
+  parser = argparse.ArgumentParser(description = '', add_help = False,  formatter_class=get_argparser_formatter())
+  parser.add_argument('--boot', action='store_true', dest='boot', required = False, 
+                      help = "Enable the VM to start on boot.")
+  parser.add_argument('--sockets', action='store', dest='sockets', required = False, 
+                      help = "The number of sockets.")
+  parser.add_argument('--cores', action='store', dest='cores', required = False, 
+                      help = "The number of cores.")
+  parser.add_argument('--memory', action='store', dest='memory', required = False, 
+                      help = "The amount of memory in MB.")
+  parser.add_argument('--cpu', action='store', dest='cpu', required = False, 
+                      help = "The CPU model.")
+  parser.add_argument('--balloon', action='store', dest='balloon', required = False, 
+                      help = "The amount of balloon memory in MB.")
+  parser.add_argument('--set-device-from-config', action='store_true', dest='set_device_from_config', required = False, 
+                      help = "The PCI device.")
+
+  parser.add_argument('--remove-unused-disks', action='store_true', dest='remove_unused_disks', required = False, 
+                      help = "Remove unused disks.")
+  return [common_parser(),parser] 

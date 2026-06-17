@@ -51,6 +51,14 @@ def delete_reservation(args):
     else:
         print(f"Failed to delete reservation '{args.name}'.")
 
+def list_reservations(args):
+    """List Slurm reservations."""
+    cmd = ["scontrol", "show", "reservation"]
+    if args.name:
+        cmd.append(args.name)
+    
+    run_command(cmd)
+
 def main():
     parser = argparse.ArgumentParser(description="Manage Slurm Reservations")
     subparsers = parser.add_subparsers(dest="command", help="Sub-command to run")
@@ -68,12 +76,18 @@ def main():
     delete_parser = subparsers.add_parser("delete", help="Delete a reservation")
     delete_parser.add_argument("--name", "-n", required=True, help="Name of the reservation to delete")
     
+    # List sub-command
+    list_parser = subparsers.add_parser("list", help="List reservations")
+    list_parser.add_argument("--name", "-n", help="Name of a specific reservation to show")
+    
     args = parser.parse_args()
     
     if args.command == "create":
         create_reservation(args)
     elif args.command == "delete":
         delete_reservation(args)
+    elif args.command == "list":
+        list_reservations(args)
     else:
         parser.print_help()
 

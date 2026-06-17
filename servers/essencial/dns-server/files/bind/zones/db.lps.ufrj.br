@@ -3,7 +3,7 @@
 ;
 $TTL      7200
 @     IN   SOA       ns.lps.ufrj.br. netadmin.lps.ufrj.br. (
-           2026011004    ; Serial (YOU NEED TO CHANGE THIS EVERY UPDATE)
+           2026061301    ; Serial (YOU NEED TO CHANGE THIS EVERY UPDATE)
            7200          ; Refresh (2h)
            3600          ; Retry (1h)
            31536000      ; Expire (1y)
@@ -82,7 +82,7 @@ service03                   IN    A     146.164.147.103 ; service virtualization
 ; hosted into service 01
 auth-server                 IN    A     146.164.147.3   ; kerberos and ldap
 slurm-server                IN    A     146.164.147.4   ; slurm frontend
-sso-server                  IN    A     146.164.147.5   ; login
+cluster-server              IN    A     146.164.147.5   ; login
 vpn-server                  IN    A     146.164.147.6   ; openvpn
 proxy-server                IN    A     146.164.147.7   ; nginx proxy server
 www-server                  IN    A     146.164.147.8   ; sites
@@ -92,6 +92,18 @@ slurmweb-server             IN    A     146.164.147.9   ; sites
 login                       IN    A     146.164.147.41   ; login
 rancher-server              IN    A     146.164.147.43  ; 
 runner-server               IN    A     146.164.147.44  ; 
+
+; kubernetes cluster
+k8s-01                      IN    A     146.164.147.51
+openproject                 IN    A     146.164.147.51
+dtsp                        IN    A     146.164.147.51
+*.dtsp                      IN    A     146.164.147.51
+basyx.dtsp                  IN    A     146.164.147.51
+*.basyx.dtsp                IN    A     146.164.147.51
+gdi                         IN    A     146.164.147.51
+*.gdi                       IN    A     146.164.147.51
+basyx.gdi                   IN    A     146.164.147.51
+*.basyx.gdi                 IN    A     146.164.147.51
 
 
 www                         IN    CNAME proxy-server.lps.ufrj.br.

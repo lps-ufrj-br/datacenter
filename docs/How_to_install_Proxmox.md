@@ -19,6 +19,8 @@ Before installation, ensure that these features are enabled in your motherboard'
   * **Intel Virtualization Technology**
   * **VT-d**
 
+**Note:** For MSI motherboard, `disable secure boot`, `swith boot to custom` and `disable CState` on Intel CPU.
+
 -----
 
 ### **2. GPU Passthrough Configuration**

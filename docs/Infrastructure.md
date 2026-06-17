@@ -17,11 +17,6 @@ server (service) into the lab infrastructure.
 - [Proxmox Caloba-v05](https://10.1.1.105:8006/)
 - [Proxmox Caloba-v06](https://10.1.1.106:8006/)
 - [Proxmox Caloba-v07](https://10.1.1.107:8006/)
-- [Proxmox Caloba-v08](https://10.1.1.108:8006/)
-- [Proxmox Caloba-v09](https://10.1.1.109:8006/)
-- [Proxmox Caloba-v10](https://10.1.1.110:8006/)
-- [Proxmox Caloba-v11](https://10.1.1.111:8006/)
-- [Proxmox Caloba-v12](https://10.1.1.112:8006/)
 - [Proxmox Caloba-v13](https://10.1.1.113:8006/)
 - [Proxmox Caloba-v14](https://10.1.1.114:8006/)
 - [Proxmox Caloba-v15](https://10.1.1.115:8006/)
@@ -30,13 +25,14 @@ server (service) into the lab infrastructure.
 
 ### Queues (Cluster):
 
-- [gpu](https://10.1.1.103:8006/)
-- [gpu-large](https://10.1.1.109:8006/)
+- [gpu](https://10.1.1.101:8006/)
+- [cpu](https://10.1.1.112:8006/)
 - [cpu-large](https://10.1.1.116:8006/)
 
 
 ### Services:
 
+- [Cluster Data Center](https://cluster-server.lps.ufrj.br:8443)
 - [LDAP Account Manager](http://auth-server.lps.ufrj.br/lam/)
 - [Proxy Server](http://proxy-server.lps.ufrj.br:8080/login)
 - [Finger Print](http://fingerprint.lps.ufrj.br)

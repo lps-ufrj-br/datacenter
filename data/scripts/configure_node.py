@@ -21,7 +21,7 @@ def replace(file_path, pattern, subst):
 pci_devices = subprocess.check_output(['lspci']).decode()
 devices = []
 for device in pci_devices.split('\n'):
-    if "NVIDIA" and "VGA" in device:
+    if "NVIDIA" in device and "VGA" in device:
         devices.append(device[:5])
         
 

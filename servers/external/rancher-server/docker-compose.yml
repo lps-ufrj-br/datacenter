@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  rancher:
+    image: rancher/rancher:${RANCHER_TAG:-stable}
+    container_name: rancher-server
+    restart: unless-stopped
+    privileged: true
+    ports:
+      - "${HTTP_PORT}:80"
+      - "${HTTPS_PORT}:443"
+    environment:
+      - CATTLE_SYSTEM_CHART_DEFAULT_BRANCH=main
+    volumes:
+      - "${RANCHER_DATA_PATH}:/var/lib/rancher"
+    networks:
+      - rancher-net
+
+networks:
+  rancher-net:
+    driver: bridge
