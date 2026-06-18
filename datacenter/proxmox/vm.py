@@ -74,7 +74,7 @@ class VM(Playbook):
     def snapshot(self, name : str) -> bool:
         vmid  = self.vm("vmid")
         command = Command(f"snapshot vm {self.vm_name}...")
-        command+= f"qm snapshot {vmid} {name}"
+        command+= f"qm snapshot {vmid} {name} --vmstate 0"
         return self.run_shell_on_host(command)
 
 

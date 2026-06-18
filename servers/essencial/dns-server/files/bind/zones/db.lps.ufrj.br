@@ -3,7 +3,7 @@
 ;
 $TTL      7200
 @     IN   SOA       ns.lps.ufrj.br. netadmin.lps.ufrj.br. (
-           2026061301    ; Serial (YOU NEED TO CHANGE THIS EVERY UPDATE)
+           2026061302    ; Serial (YOU NEED TO CHANGE THIS EVERY UPDATE)
            7200          ; Refresh (2h)
            3600          ; Retry (1h)
            31536000      ; Expire (1y)
@@ -193,10 +193,19 @@ caloba61        IN      A     10.1.1.61
 caloba62        IN      A     10.1.1.62
 caloba63        IN      A     10.1.1.63
 caloba64        IN      A     10.1.1.64
-
-
-
 caloba65        IN      A     10.1.1.65
+caloba66        IN      A     10.1.1.66
+caloba67        IN      A     10.1.1.67
+caloba68        IN      A     10.1.1.68
+caloba69        IN      A     10.1.1.69
+caloba70        IN      A     10.1.1.70
+caloba71        IN      A     10.1.1.71
+caloba72        IN      A     10.1.1.72
+caloba73        IN      A     10.1.1.73
+caloba74        IN      A     10.1.1.74
+caloba75        IN      A     10.1.1.75
+
+
 caloba76        IN      A     10.1.1.76
 caloba77        IN      A     10.1.1.77
 caloba78        IN      A     10.1.1.78
