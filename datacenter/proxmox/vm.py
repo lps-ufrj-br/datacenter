@@ -77,6 +77,11 @@ class VM(Playbook):
         command+= f"qm snapshot {vmid} {name} --vmstate 0"
         return self.run_shell_on_host(command)
 
+    def delete_snapshot(self, name : str) -> bool:
+        vmid  = self.vm("vmid")
+        command = Command(f"delete snapshot vm {self.vm_name}...")
+        command+= f"qm delsnapshot {vmid} {name}"
+        return self.run_shell_on_host(command)
 
     def reboot(self) -> bool:
         vmid  = self.vm("vmid")
@@ -215,6 +220,12 @@ def vm_run_command_parser():
   return [common_parser(),parser] 
   
 def vm_snapshot_parser():
+  parser = argparse.ArgumentParser(description = '', add_help = False,  formatter_class=get_argparser_formatter())
+  parser.add_argument('-s','--snapshot', action='store', dest='snapshot', required = False, 
+                      help = "The name of the snapshot.", default='base')
+  return [common_parser(),parser] 
+
+def vm_delete_snapshot_parser():
   parser = argparse.ArgumentParser(description = '', add_help = False,  formatter_class=get_argparser_formatter())
   parser.add_argument('-s','--snapshot', action='store', dest='snapshot', required = False, 
                       help = "The name of the snapshot.", default='base')

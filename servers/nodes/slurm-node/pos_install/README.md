@@ -11,11 +11,18 @@ play vm run -c "bash /mnt/market_place/scripts/datacenter/servers/nodes/slurm-no
 ### Update singularity fake roots:
 
 ```
-play vm run -c "python /mnt/market_place/scripts/datacenter/servers/nodes/slurm-node pos_install/02_configure_singularity.py" -n caloba10-21,60-71,50
+play vm run -c "python /mnt/market_place/scripts/datacenter/servers/nodes/slurm-node/pos_install/02_configure_singularity.py" -n caloba10-21,60-71,50
 ```
 
 ### Add user into the docker group:
 
 ```
 play vm run -c "usermod -aG docker USERNAME" -n caloba10-21,60-71,50
+```
+
+
+### Installnvidia container toolkit:
+
+```
+play vm run -c "bash /mnt/market_place/scripts/datacenter/servers/nodes/slurm-node/pos_install/03_configure_docker_gpu_toolkit.sh" -n caloba10-21,60-71,50
 ```
