@@ -14,7 +14,8 @@ services:
     restart: always
     environment:
       - VIRTUAL_HOST=lps.ufrj.br
-      - REDIRECT_TARGET=https://sites.google.com/lps.ufrj.br/lps/início
+      #- REDIRECT_TARGET=https://sites.google.com/lps.ufrj.br/lps/início
+      - REDIRECT_TARGET=https://157.151.14.113:8443
     ports:
       - "80:80"
 

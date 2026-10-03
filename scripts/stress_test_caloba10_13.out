@@ -1,0 +1,14 @@
+=========================================
+Starting Stress Test on Host: caloba10
+Date: Fri 28 Aug 2026 06:26:05 PM -03
+Requested duration: 120 seconds
+=========================================
+Launching CPU stress...
+No GPUs detected on this node.
+Stressing 10 CPUs for 120 seconds...
+Stopping CPU stress processes...
+CPU stress finished.
+=========================================
+Stress Test Finished on Host: caloba10
+Date: Fri 28 Aug 2026 06:28:05 PM -03
+=========================================
