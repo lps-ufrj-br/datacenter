@@ -1,32 +1,49 @@
 __all__ = []
 
-import os, json
+import os
+import json
+from typing import Dict, Any
 
-from typing import Dict
-from rich_argparse import RichHelpFormatter
+def get_cluster_config() -> Dict[str, Any]:
+    """
+    Load and return the cluster configuration dictionary from JSON.
 
-def get_argparser_formatter():
-  RichHelpFormatter.styles["argparse.args"]     = "green"
-  RichHelpFormatter.styles["argparse.prog"]     = "bold grey50"
-  RichHelpFormatter.styles["argparse.groups"]   = "bold green"
-  RichHelpFormatter.styles["argparse.help"]     = "grey50"
-  RichHelpFormatter.styles["argparse.metavar"]  = "blue"
-  return RichHelpFormatter
+    Reads the base configuration path from the DATACENTER_DATA_PATH environment variable.
 
-def get_cluster_config() -> Dict:
+    Returns:
+        Dict[str, Any]: Configuration dictionary for clusters, nodes, images, and storages.
+    """
     data_path = os.environ.get("DATACENTER_DATA_PATH")
-    with open(f"{data_path}/cluster.json",'r') as f:
+    with open(f"{data_path}/cluster.json", "r") as f:
         return json.load(f)
 
 def get_host_path() -> str:
+    """
+    Return the path to the Ansible inventory hosts file.
+
+    Returns:
+        str: Absolute path to the hosts inventory file.
+    """
     data_path = os.environ.get("DATACENTER_DATA_PATH")
     return f"{data_path}/hosts"
 
 def get_playbook_path() -> str:
-    playbook_path =os.environ.get("DATACENTER_DATA_PATH")
+    """
+    Return the base directory where Ansible playbooks are located.
+
+    Returns:
+        str: Absolute path to the playbooks directory.
+    """
+    playbook_path = os.environ.get("DATACENTER_DATA_PATH")
     return f"{playbook_path}/playbooks"
 
 def get_master_key() -> str:
+    """
+    Retrieve the cluster administrative master key from the CLUSTER_MASTER_KEY environment variable.
+
+    Returns:
+        str: Master key string.
+    """
     return os.environ.get("CLUSTER_MASTER_KEY", "")
 
 from . import ansible

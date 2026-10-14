@@ -14,4 +14,3 @@ fi
 docker-compose -f ../files/docker-compose.yaml run --rm openvpn ovpn_revokeclient $client_name
 # Remove the corresponding crt, key and req files.
 docker-compose -f ../files/docker-compose.yaml run --rm openvpn ovpn_revokeclient $client_name remove
-```
