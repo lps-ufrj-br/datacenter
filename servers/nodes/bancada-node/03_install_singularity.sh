@@ -5,7 +5,7 @@
 #
 basepath=$PWD
 export GOVERSION=1.17.3 OS=linux ARCH=amd64  # change this as you need
-export SINGVERSION=v3.8.4
+export SINGVERSION=v4.5.1
 
 # Ensure repositories are up-to-date
 apt-get -y update
