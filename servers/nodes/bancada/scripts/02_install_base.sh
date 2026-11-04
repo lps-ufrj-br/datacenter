@@ -106,20 +106,29 @@ systemctl restart nslcd || true
 echo "=============================================================================="
 echo "🔑 5. Configuring OpenSSH and LPS Drop-in"
 echo "=============================================================================="
+DEBIAN_FRONTEND=noninteractive apt-get install -y openssh-server
+
 mkdir -p /etc/ssh/sshd_config.d
 if [ -f "$FILES_DIR/60-lps-sshd.conf" ]; then
     cp "$FILES_DIR/60-lps-sshd.conf" /etc/ssh/sshd_config.d/60-lps.conf
 fi
-systemctl restart ssh || true
+
+if [ ! -f /.dockerenv ]; then
+    systemctl enable ssh 2>/dev/null || systemctl enable sshd 2>/dev/null || true
+    systemctl restart ssh 2>/dev/null || systemctl restart sshd 2>/dev/null || systemctl restart ssh.socket 2>/dev/null || true
+fi
 
 echo "=============================================================================="
 echo "⏰ 6. Configuring Time Synchronization (systemd-timesyncd)"
 echo "=============================================================================="
+DEBIAN_FRONTEND=noninteractive apt-get install -y systemd-timesyncd
+
 if [ -f "$FILES_DIR/timesyncd.conf" ]; then
     cp "$FILES_DIR/timesyncd.conf" /etc/systemd/
 fi
 if [ ! -f /.dockerenv ]; then
-    timedatectl set-ntp true || true
+    systemctl enable --now systemd-timesyncd 2>/dev/null || true
+    timedatectl set-ntp true 2>/dev/null || true
 fi
 
 echo "=============================================================================="
@@ -132,7 +141,7 @@ if [ -f "$FILES_DIR/login-logger.sh" ]; then
     chmod +x /etc/pam_scripts/login-logger.sh
 fi
 
-if ! grep -q "login-logger.sh" /etc/pam.d/sshd; then
+if [ -f /etc/pam.d/sshd ] && ! grep -q "login-logger.sh" /etc/pam.d/sshd; then
     echo "session required pam_exec.so /etc/pam_scripts/login-logger.sh" >> /etc/pam.d/sshd
 fi
 
@@ -140,7 +149,7 @@ echo "==========================================================================
 echo "🛠️  8. Installing Essential Diagnostic Tools and XRDP"
 echo "=============================================================================="
 DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    htop sshpass screen rsync vim curl git python3-virtualenv python-is-python3 xrdp dconf-cli
+    htop sshpass screen rsync vim curl git python3-virtualenv python-is-python3 python3-apt xrdp dconf-cli
 
 systemctl enable xrdp || true
 

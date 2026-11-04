@@ -167,6 +167,34 @@ run_step_07() {
     return 1
 }
 
+run_step_08() {
+    echo -e "\n${C_BOLD}------------------------------------------------------------------------------${C_RESET}"
+    echo -e "${C_BOLD}🧪 Testing Step 08: SLURM Client Configuration${C_RESET}"
+    echo -e "${C_BOLD}------------------------------------------------------------------------------${C_RESET}"
+    if ./scripts/08_install_slurm_client.sh; then
+        if dpkg -l | grep -q "munge"; then
+            TEST_RESULTS+=("${C_GREEN}[✓] Step 08: SLURM Client Configuration ................ PASSED${C_RESET}")
+            return 0
+        fi
+    fi
+    TEST_RESULTS+=("${C_RED}[✗] Step 08: SLURM Client Configuration ................ FAILED${C_RESET}")
+    return 1
+}
+
+run_step_09() {
+    echo -e "\n${C_BOLD}------------------------------------------------------------------------------${C_RESET}"
+    echo -e "${C_BOLD}🧪 Testing Step 09: Developer Tools (VSCode & Antigravity)${C_RESET}"
+    echo -e "${C_BOLD}------------------------------------------------------------------------------${C_RESET}"
+    if ./scripts/09_install_dev_tools.sh; then
+        if dpkg -l | grep -q "code" && [ -f /usr/share/applications/antigravity.desktop ]; then
+            TEST_RESULTS+=("${C_GREEN}[✓] Step 09: Developer Tools (VSCode & Antigravity) .... PASSED${C_RESET}")
+            return 0
+        fi
+    fi
+    TEST_RESULTS+=("${C_RED}[✗] Step 09: Developer Tools (VSCode & Antigravity) .... FAILED${C_RESET}")
+    return 1
+}
+
 # Run selected test or complete pipeline
 FAILED=0
 case "$STEP" in
@@ -191,6 +219,12 @@ case "$STEP" in
     07|gpu-toolkit)
         run_step_07 || FAILED=1
         ;;
+    08|slurm|slurm-client)
+        run_step_08 || FAILED=1
+        ;;
+    09|dev-tools|vscode)
+        run_step_09 || FAILED=1
+        ;;
     all)
         run_step_01 || FAILED=1
         run_step_02 || FAILED=1
@@ -199,9 +233,11 @@ case "$STEP" in
         run_step_05 || FAILED=1
         run_step_06 || FAILED=1
         run_step_07 || FAILED=1
+        run_step_08 || FAILED=1
+        run_step_09 || FAILED=1
         ;;
     *)
-        echo -e "${C_RED}❌ Error: Unknown test step '$STEP'. Use 01, 02, 03, 04, 05, 06, 07, or all.${C_RESET}"
+        echo -e "${C_RED}❌ Error: Unknown test step '$STEP'. Use 01, 02, 03, 04, 05, 06, 07, 08, 09, or all.${C_RESET}"
         exit 1
         ;;
 esac

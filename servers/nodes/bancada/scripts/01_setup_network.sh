@@ -111,7 +111,11 @@ chmod 600 "$NETPLAN_FILE"
 echo "🔄 Applying Netplan configuration..."
 if command -v netplan &>/dev/null; then
     if [ ! -f /.dockerenv ]; then
+        # Ensure systemd-networkd and systemd-resolved are active before applying netplan
+        systemctl enable --now systemd-networkd systemd-resolved 2>/dev/null || true
         netplan apply
+        systemctl restart systemd-resolved 2>/dev/null || true
+        sleep 2
     else
         netplan generate || true
     fi
