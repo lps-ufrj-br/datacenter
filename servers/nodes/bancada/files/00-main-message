@@ -1,0 +1,49 @@
+#!/bin/bash
+# ==============================================================================
+# LPS / UFRJ - Workstation Welcome Banner (MOTD)
+# ==============================================================================
+HOSTNAME="$(hostname 2>/dev/null || echo 'bancada')"
+IP_ADDR="$(hostname -I 2>/dev/null | awk '{print $1}' || echo '')"
+
+echo "Welcome to"
+cat << 'EOF'
+    ____                               __      
+   / __ )____ _____  _________ _____  / /___ _ 
+  / __  / __ `/ __ \/ ___/ __ `/ __ \/ / __ `/ 
+ / /_/ / /_/ / / / / /__/ /_/ / /_/ / / /_/ /  
+/_____/\__,_/_/ /_/\___/\__,_/\__,_/_/\__,_/   
+EOF
+
+printf "\n                                   Workstation: %s (%s)\n" "$HOSTNAME" "$IP_ADDR"
+echo "=============================================================================="
+echo " 🌐 LPS / UFRJ - Signal Processing Laboratory"
+echo " 📁 Network Storage:"
+echo "    • /home                   - User personal directories mounted via NFS"
+echo "    • /mnt/shared             - Shared projects, datasets, and storage pools"
+echo ""
+echo " 💡 Recommended Practices & Workflow:"
+echo "    • Python Environments: Always use 'virtualenv' (or 'python -m venv')"
+echo "      to isolate packages and avoid altering the base system."
+echo "    • Containers: Use 'singularity' or 'docker' for reproducible experiments,"
+echo "      isolated environments, and GPU workloads."
+echo "    • Developer Tools: VSCode ('code') and Google Antigravity ('agy')"
+echo "      are available directly in your PATH."
+echo ""
+echo " ⚡ Caloba SLURM Cluster:"
+echo "    • This workstation can submit and monitor jobs on the central cluster."
+echo "    • Useful commands: sbatch, squeue, srun, scancel, sjstat."
+echo "    • Tutorials & documentation: https://www.lps.ufrj.br"
+echo "=============================================================================="
+
+if command -v sjstat >/dev/null 2>&1; then
+    echo "Current status of cluster partitions:"
+    echo ""
+    sjstat 2>/dev/null || true
+    echo ""
+fi
+
+echo "Staff members contact information:"
+echo "   - Joao Victor da Fonseca Pinto <jodafons@lps.ufrj.br>"
+echo "   - Natanael Junior <natmourajr@lps.ufrj.br>"
+echo "=============================================================================="
+echo ""

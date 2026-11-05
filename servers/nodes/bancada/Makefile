@@ -51,11 +51,13 @@ help: ## Display this help menu with instructions and available targets
 	@printf "  $(C_PURPLE)%-20s$(C_RESET) %s\n" "test-shell" "Open interactive bash shell inside clean Ubuntu 26 container"
 	@echo ""
 	@echo "🔧 Maintenance & Utilities:"
+	@printf "  $(C_CYAN)%-20s$(C_RESET) %s\n" "motd" "Update or re-install the workstation welcome banner (MOTD)"
 	@printf "  $(C_CYAN)%-20s$(C_RESET) %s\n" "fakeroot" "Re-sync domain accounts from LDAP into Singularity fakeroot"
 	@printf "  $(C_CYAN)%-20s$(C_RESET) %s\n" "cleanup" "[ALIAS] Re-run Docker configuration and cleanup service"
 	@printf "  $(C_CYAN)%-20s$(C_RESET) %s\n" "apptainer" "[ALIAS] Alias for singularity"
 	@printf "  $(C_CYAN)%-20s$(C_RESET) %s\n" "slurm" "[ALIAS] Alias for slurm-client"
 	@printf "  $(C_CYAN)%-20s$(C_RESET) %s\n" "vscode" "[ALIAS] Alias for dev-tools"
+	@printf "  $(C_CYAN)%-20s$(C_RESET) %s\n" "welcome" "[ALIAS] Alias for motd"
 	@printf "  $(C_CYAN)%-20s$(C_RESET) %s\n" "all" "[ALIAS] Alias for install"
 	@echo "=============================================================================="
 	@echo "⚠️  CRITICAL REQUIREMENT:"
@@ -204,6 +206,30 @@ vscode: dev-tools ## [ALIAS] Alias for dev-tools
 .PHONY: fakeroot
 fakeroot: check-root ## [UTIL] Re-sync fakeroot permissions for domain accounts in LDAP
 	@./$(SCRIPTS_DIR)/04_install_singularity.sh --fakeroot-only
+
+.PHONY: motd welcome
+motd: check-root ## [UTIL] Update or re-install the workstation welcome banner (MOTD)
+	@mkdir -p /etc/update-motd.d /etc/profile.d
+	@if [ -f files/00-main-message ]; then \
+		cp files/00-main-message /etc/update-motd.d/00-main-message; \
+		chmod +x /etc/update-motd.d/00-main-message; \
+		chmod -x /etc/update-motd.d/10-help-text 2>/dev/null || true; \
+		chmod -x /etc/update-motd.d/50-motd-news 2>/dev/null || true; \
+		echo '# Show LPS welcome banner in interactive shell sessions (once per session)' > /etc/profile.d/00-lps-welcome.sh; \
+		echo 'if [ -n "$$PS1" ] && [ -x /etc/update-motd.d/00-main-message ] && [ -z "$${LPS_MOTD_SHOWN:-}" ]; then' >> /etc/profile.d/00-lps-welcome.sh; \
+		echo '    export LPS_MOTD_SHOWN=1' >> /etc/profile.d/00-lps-welcome.sh; \
+		echo '    /etc/update-motd.d/00-main-message' >> /etc/profile.d/00-lps-welcome.sh; \
+		echo 'fi' >> /etc/profile.d/00-lps-welcome.sh; \
+		chmod 644 /etc/profile.d/00-lps-welcome.sh; \
+		echo "✅ MOTD banner updated successfully! Previewing banner:"; \
+		echo ""; \
+		/etc/update-motd.d/00-main-message; \
+	else \
+		echo "❌ files/00-main-message not found."; \
+		exit 1; \
+	fi
+
+welcome: motd ## [ALIAS] Alias for motd
 
 .PHONY: reboot
 reboot: check-root ## Reboot the node to apply kernel and service updates

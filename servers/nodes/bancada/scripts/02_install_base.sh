@@ -146,7 +146,31 @@ if [ -f /etc/pam.d/sshd ] && ! grep -q "login-logger.sh" /etc/pam.d/sshd; then
 fi
 
 echo "=============================================================================="
-echo "🛠️  8. Installing Essential Diagnostic Tools and XRDP"
+echo "📢 8. Configuring Workstation Welcome Banner (MOTD)"
+echo "=============================================================================="
+if [ -f "$FILES_DIR/00-main-message" ]; then
+    mkdir -p /etc/update-motd.d
+    cp "$FILES_DIR/00-main-message" /etc/update-motd.d/00-main-message
+    chmod +x /etc/update-motd.d/00-main-message
+
+    # Disable generic Ubuntu MOTD advertisements
+    chmod -x /etc/update-motd.d/10-help-text 2>/dev/null || true
+    chmod -x /etc/update-motd.d/50-motd-news 2>/dev/null || true
+
+    # Integrate into /etc/profile.d for graphical desktop terminal sessions (GNOME / XRDP)
+    cat << 'EOF' > /etc/profile.d/00-lps-welcome.sh
+# Show LPS welcome banner in interactive shell sessions (once per session)
+if [ -n "$PS1" ] && [ -x /etc/update-motd.d/00-main-message ] && [ -z "${LPS_MOTD_SHOWN:-}" ]; then
+    export LPS_MOTD_SHOWN=1
+    /etc/update-motd.d/00-main-message
+fi
+EOF
+    chmod 644 /etc/profile.d/00-lps-welcome.sh
+    echo "  ✅ Welcome banner installed to /etc/update-motd.d/00-main-message and /etc/profile.d/00-lps-welcome.sh"
+fi
+
+echo "=============================================================================="
+echo "🛠️  9. Installing Essential Diagnostic Tools and XRDP"
 echo "=============================================================================="
 DEBIAN_FRONTEND=noninteractive apt-get install -y \
     htop sshpass screen rsync vim curl git python3-virtualenv python-is-python3 python3-apt xrdp dconf-cli

@@ -92,7 +92,7 @@ run_step_02() {
     echo -e "${C_BOLD}🧪 Testing Step 02: Base System Utilities & Authentication${C_RESET}"
     echo -e "${C_BOLD}------------------------------------------------------------------------------${C_RESET}"
     if ./scripts/02_install_base.sh; then
-        if grep -q "vm.panic_on_oom" /etc/sysctl.conf && dpkg -l | grep -q "nfs-common"; then
+        if grep -q "vm.panic_on_oom" /etc/sysctl.conf && dpkg -s nfs-common &>/dev/null && [ -x /etc/update-motd.d/00-main-message ]; then
             TEST_RESULTS+=("${C_GREEN}[✓] Step 02: Base Utilities & Kerberos/LDAP Config ..... PASSED${C_RESET}")
             return 0
         fi
@@ -172,7 +172,7 @@ run_step_08() {
     echo -e "${C_BOLD}🧪 Testing Step 08: SLURM Client Configuration${C_RESET}"
     echo -e "${C_BOLD}------------------------------------------------------------------------------${C_RESET}"
     if ./scripts/08_install_slurm_client.sh; then
-        if dpkg -l | grep -q "munge"; then
+        if dpkg -s munge &>/dev/null; then
             TEST_RESULTS+=("${C_GREEN}[✓] Step 08: SLURM Client Configuration ................ PASSED${C_RESET}")
             return 0
         fi
@@ -186,7 +186,7 @@ run_step_09() {
     echo -e "${C_BOLD}🧪 Testing Step 09: Developer Tools (VSCode & Antigravity)${C_RESET}"
     echo -e "${C_BOLD}------------------------------------------------------------------------------${C_RESET}"
     if ./scripts/09_install_dev_tools.sh; then
-        if dpkg -l | grep -q "code" && [ -f /usr/share/applications/antigravity.desktop ]; then
+        if dpkg -s code &>/dev/null && [ -f /usr/share/applications/antigravity.desktop ] && [ -x /usr/local/bin/agy ]; then
             TEST_RESULTS+=("${C_GREEN}[✓] Step 09: Developer Tools (VSCode & Antigravity) .... PASSED${C_RESET}")
             return 0
         fi

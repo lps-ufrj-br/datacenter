@@ -74,5 +74,6 @@ SINGULARITY_VERSION="4.6.0"
 | `make gpu-toolkit` / [`scripts/07_configure_docker_gpu_toolkit.sh`](scripts/07_configure_docker_gpu_toolkit.sh) | *(Optional if GPU)* Installs NVIDIA Container Toolkit runtime and configures Docker for `--gpus all` acceleration. |
 | `make slurm-client` / [`scripts/08_install_slurm_client.sh`](scripts/08_install_slurm_client.sh) | Configures the workstation as a SLURM cluster submitter node (syncs `munge.key`, installs SLURM client tools & `sjstat`, without running `slurmd`). |
 | `make dev-tools` / [`scripts/09_install_dev_tools.sh`](scripts/09_install_dev_tools.sh) | Installs Visual Studio Code (via official Microsoft APT repository) and Google Antigravity (CLI `agy` + desktop application). |
+| `make motd` | *(Utility)* Updates or reinstalls the workstation welcome banner (MOTD) in `/etc/update-motd.d/00-main-message`. |
 | `make fakeroot` | *(Utility)* Re-syncs fakeroot permissions for domain users in Singularity without reinstalling. |
 | `make cleanup` | *(Alias)* Re-runs Docker configuration and cleanup service registration. |
