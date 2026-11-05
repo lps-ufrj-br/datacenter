@@ -213,9 +213,20 @@ motd: check-root ## [UTIL] Update or re-install the workstation welcome banner (
 	@if [ -f files/00-main-message ]; then \
 		cp files/00-main-message /etc/update-motd.d/00-main-message; \
 		chmod +x /etc/update-motd.d/00-main-message; \
+		chmod -x /etc/update-motd.d/00-header 2>/dev/null || true; \
 		chmod -x /etc/update-motd.d/10-help-text 2>/dev/null || true; \
 		chmod -x /etc/update-motd.d/50-motd-news 2>/dev/null || true; \
-		echo '# Show LPS welcome banner in interactive shell sessions (once per session)' > /etc/profile.d/00-lps-welcome.sh; \
+		if ! grep -q "00-main-message" /etc/bash.bashrc 2>/dev/null; then \
+			echo "" >> /etc/bash.bashrc; \
+			echo "# LPS / UFRJ - Workstation Welcome Banner" >> /etc/bash.bashrc; \
+			echo 'if [ -n "$$PS1" ] && [ -x /etc/update-motd.d/00-main-message ]; then' >> /etc/bash.bashrc; \
+			echo '    if [ -z "$${SSH_CONNECTION:-}" ] && [ -z "$${LPS_MOTD_SHOWN:-}" ]; then' >> /etc/bash.bashrc; \
+			echo '        export LPS_MOTD_SHOWN=1' >> /etc/bash.bashrc; \
+			echo '        /etc/update-motd.d/00-main-message' >> /etc/bash.bashrc; \
+			echo '    fi' >> /etc/bash.bashrc; \
+			echo 'fi' >> /etc/bash.bashrc; \
+		fi; \
+		echo '# Show LPS welcome banner in login shell sessions' > /etc/profile.d/00-lps-welcome.sh; \
 		echo 'if [ -n "$$PS1" ] && [ -x /etc/update-motd.d/00-main-message ] && [ -z "$${LPS_MOTD_SHOWN:-}" ]; then' >> /etc/profile.d/00-lps-welcome.sh; \
 		echo '    export LPS_MOTD_SHOWN=1' >> /etc/profile.d/00-lps-welcome.sh; \
 		echo '    /etc/update-motd.d/00-main-message' >> /etc/profile.d/00-lps-welcome.sh; \

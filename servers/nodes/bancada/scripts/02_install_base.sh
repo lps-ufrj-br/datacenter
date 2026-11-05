@@ -153,20 +153,35 @@ if [ -f "$FILES_DIR/00-main-message" ]; then
     cp "$FILES_DIR/00-main-message" /etc/update-motd.d/00-main-message
     chmod +x /etc/update-motd.d/00-main-message
 
-    # Disable generic Ubuntu MOTD advertisements
+    # Disable generic Ubuntu MOTD advertisements and default Ubuntu header
+    chmod -x /etc/update-motd.d/00-header 2>/dev/null || true
     chmod -x /etc/update-motd.d/10-help-text 2>/dev/null || true
     chmod -x /etc/update-motd.d/50-motd-news 2>/dev/null || true
 
-    # Integrate into /etc/profile.d for graphical desktop terminal sessions (GNOME / XRDP)
+    # Integrate into /etc/bash.bashrc for all interactive terminal sessions (GNOME Terminal / Tilix / XRDP)
+    if ! grep -q "00-main-message" /etc/bash.bashrc 2>/dev/null; then
+        cat << 'EOF' >> /etc/bash.bashrc
+
+# LPS / UFRJ - Workstation Welcome Banner
+if [ -n "$PS1" ] && [ -x /etc/update-motd.d/00-main-message ]; then
+    if [ -z "${SSH_CONNECTION:-}" ] && [ -z "${LPS_MOTD_SHOWN:-}" ]; then
+        export LPS_MOTD_SHOWN=1
+        /etc/update-motd.d/00-main-message
+    fi
+fi
+EOF
+    fi
+
+    # Also keep profile.d for login shells
     cat << 'EOF' > /etc/profile.d/00-lps-welcome.sh
-# Show LPS welcome banner in interactive shell sessions (once per session)
+# Show LPS welcome banner in login shell sessions
 if [ -n "$PS1" ] && [ -x /etc/update-motd.d/00-main-message ] && [ -z "${LPS_MOTD_SHOWN:-}" ]; then
     export LPS_MOTD_SHOWN=1
     /etc/update-motd.d/00-main-message
 fi
 EOF
     chmod 644 /etc/profile.d/00-lps-welcome.sh
-    echo "  ✅ Welcome banner installed to /etc/update-motd.d/00-main-message and /etc/profile.d/00-lps-welcome.sh"
+    echo "  ✅ Welcome banner installed to /etc/update-motd.d/00-main-message, /etc/bash.bashrc and /etc/profile.d/00-lps-welcome.sh"
 fi
 
 echo "=============================================================================="
