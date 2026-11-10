@@ -1,6 +1,0 @@
-[com/ubuntu/login-screen]
-background-picture-uri='file:///mnt/market_place/data/login_screen/login_lps_screen.png'
-background-size='cover'
-background-repeat='no-repeat'
-#background-color='#ffffff'
-disable-user-list=true

@@ -29,12 +29,14 @@ sudo make docker
 sudo make cuda
 sudo make gpu-toolkit
 sudo make gdm
+sudo make slurm-client
+sudo make dev-tools
 sudo make cleanup
 sudo make fakeroot
 
 # 🧪 Docker Validation (Ubuntu 26 amd64 container simulation)
 make test-all             # Run automated validation matrix across all steps
-make test-step STEP=04    # Test a specific step (e.g. Singularity)
+make test-step STEP=08    # Test a specific step (e.g. SLURM client)
 make test-shell           # Open interactive bash shell inside Ubuntu 26 container
 ```
 
@@ -42,7 +44,7 @@ make test-shell           # Open interactive bash shell inside Ubuntu 26 contain
 
 ## ⚙️ Local Configuration (`config.env`)
 
-The [`config.env`](file:///home/cluster/datacenter/servers/nodes/bancada/ubuntu_manual_installation/config.env) file sets default parameters for the local node:
+The [`config.env`](file:///home/cluster/datacenter/servers/nodes/bancada/config.env) file sets default parameters for the local node:
 
 ```bash
 NODE_HOSTNAME="bancada01"
@@ -62,7 +64,7 @@ SINGULARITY_VERSION="4.6.0"
 
 | Script / Makefile Target | Description |
 | :--- | :--- |
-| `make install` | Master orchestrator. Prompts for node info and runs all steps (1 through 7) in sequence, handling GPU detection. |
+| `make install` | Master orchestrator. Prompts for node info and runs all steps (1 through 9) in sequence, handling GPU detection. |
 | `make network` / [`scripts/01_setup_network.sh`](scripts/01_setup_network.sh) | Detects the active physical interface (e.g., `eno1`), generates `/etc/netplan/01-netcfg.yaml`, sets hostname, and configures sudo NOPASSWD for `cluster`. |
 | `make base` / [`scripts/02_install_base.sh`](scripts/02_install_base.sh) | Sets kernel panic constraints (`panic_on_oom`), mounts NFS shares (`/mnt/market_place`, `/mnt/shared/...`, `/home`), preseeds debconf, and installs Kerberos/LDAP silently, activating `pam_mkhomedir` and SSH drop-in. |
 | `make docker` / [`scripts/03_install_docker.sh`](scripts/03_install_docker.sh) | Adds official Docker Inc. repository, installs Docker CE, configures daemon log rotation (`50m`), adds user to group, and installs reboot cleanup service. |
@@ -70,5 +72,8 @@ SINGULARITY_VERSION="4.6.0"
 | `make gdm` / [`scripts/05_custom_login_screen.sh`](scripts/05_custom_login_screen.sh) | Hides the user list on the GDM login screen via dconf database (`disable-user-list=true`) and applies LPS custom wallpaper. |
 | `make cuda` / [`scripts/06_install_cuda.sh`](scripts/06_install_cuda.sh) | *(Optional if GPU)* Checks for NVIDIA GPU via `lspci`, adds `cuda-keyring`, installs driver and toolkit, and sets up `/etc/profile.d/cuda.sh`. |
 | `make gpu-toolkit` / [`scripts/07_configure_docker_gpu_toolkit.sh`](scripts/07_configure_docker_gpu_toolkit.sh) | *(Optional if GPU)* Installs NVIDIA Container Toolkit runtime and configures Docker for `--gpus all` acceleration. |
+| `make slurm-client` / [`scripts/08_install_slurm_client.sh`](scripts/08_install_slurm_client.sh) | Configures the workstation as a SLURM cluster submitter node (syncs `munge.key`, installs SLURM client tools & `sjstat`, without running `slurmd`). |
+| `make dev-tools` / [`scripts/09_install_dev_tools.sh`](scripts/09_install_dev_tools.sh) | Installs Visual Studio Code (via official Microsoft APT repository) and Google Antigravity (CLI `agy` + desktop application). |
+| `make motd` | *(Utility)* Updates or reinstalls the workstation welcome banner (MOTD) in `/etc/update-motd.d/00-main-message`. |
 | `make fakeroot` | *(Utility)* Re-syncs fakeroot permissions for domain users in Singularity without reinstalling. |
 | `make cleanup` | *(Alias)* Re-runs Docker configuration and cleanup service registration. |

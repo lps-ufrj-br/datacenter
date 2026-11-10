@@ -3,7 +3,7 @@
 ;
 $TTL  7200
 @ IN  SOA ns.lps.ufrj.br. netadmin.lps.ufrj.br. (
-          2026061302  ; Serial
+          2026111000  ; Serial
           7200        ; Refresh (2h)
           3600        ; Retry (1h)
           31536000    ; Expire (1y)
@@ -48,10 +48,13 @@ $TTL  7200
 44    IN  PTR runner-server.lps.ufrj.br.
 
 
+
 ;
 ; Kubernetes Cluster
 ;
 51   IN  PTR k8s-01.lps.ufrj.br.
+52   IN  PTR gdi-server.lps.ufrj.br.
+
 
 
 ; proxmox server

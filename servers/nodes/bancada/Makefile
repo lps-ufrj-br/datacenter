@@ -31,7 +31,7 @@ help: ## Display this help menu with instructions and available targets
 	@echo "🛠️  LPS Bancada - Workstation Manual Installation & Maintenance"
 	@echo "=============================================================================="
 	@echo "🚀 Main Operations:"
-	@printf "  $(C_CYAN)%-20s$(C_RESET) %s\n" "install" "Run complete automated installation (steps 1 through 7)"
+	@printf "  $(C_CYAN)%-20s$(C_RESET) %s\n" "install" "Run complete automated installation (steps 1 through 9)"
 	@printf "  $(C_CYAN)%-20s$(C_RESET) %s\n" "reboot" "Reboot machine to apply kernel and system service updates"
 	@echo ""
 	@echo "📋 Step-by-Step Installation (MUST BE RUN IN SEQUENTIAL ORDER):"
@@ -42,6 +42,8 @@ help: ## Display this help menu with instructions and available targets
 	@printf "  $(C_GREEN)%-20s$(C_RESET) %s\n" "[Step 5] gdm" "Customize GDM login screen (hide users & set LPS wallpaper)"
 	@printf "  $(C_YELLOW)%-20s$(C_RESET) %s\n" "[Step 6] cuda" "Install NVIDIA Drivers & CUDA Toolkit (optional if GPU)"
 	@printf "  $(C_YELLOW)%-20s$(C_RESET) %s\n" "[Step 7] gpu-toolkit" "Configure NVIDIA Container Toolkit for Docker (optional if GPU)"
+	@printf "  $(C_GREEN)%-20s$(C_RESET) %s\n" "[Step 8] slurm-client" "Configure SLURM client & munge key for cluster job submission"
+	@printf "  $(C_GREEN)%-20s$(C_RESET) %s\n" "[Step 9] dev-tools" "Install developer tools (Visual Studio Code & Google Antigravity)"
 	@echo ""
 	@echo "🧪 Docker Validation (Ubuntu 26 amd64):"
 	@printf "  $(C_PURPLE)%-20s$(C_RESET) %s\n" "test-all" "Run automated validation matrix of all steps in Ubuntu 26"
@@ -49,22 +51,28 @@ help: ## Display this help menu with instructions and available targets
 	@printf "  $(C_PURPLE)%-20s$(C_RESET) %s\n" "test-shell" "Open interactive bash shell inside clean Ubuntu 26 container"
 	@echo ""
 	@echo "🔧 Maintenance & Utilities:"
+	@printf "  $(C_CYAN)%-20s$(C_RESET) %s\n" "motd" "Update or re-install the workstation welcome banner (MOTD)"
 	@printf "  $(C_CYAN)%-20s$(C_RESET) %s\n" "fakeroot" "Re-sync domain accounts from LDAP into Singularity fakeroot"
 	@printf "  $(C_CYAN)%-20s$(C_RESET) %s\n" "cleanup" "[ALIAS] Re-run Docker configuration and cleanup service"
 	@printf "  $(C_CYAN)%-20s$(C_RESET) %s\n" "apptainer" "[ALIAS] Alias for singularity"
+	@printf "  $(C_CYAN)%-20s$(C_RESET) %s\n" "slurm" "[ALIAS] Alias for slurm-client"
+	@printf "  $(C_CYAN)%-20s$(C_RESET) %s\n" "vscode" "[ALIAS] Alias for dev-tools"
+	@printf "  $(C_CYAN)%-20s$(C_RESET) %s\n" "welcome" "[ALIAS] Alias for motd"
 	@printf "  $(C_CYAN)%-20s$(C_RESET) %s\n" "all" "[ALIAS] Alias for install"
 	@echo "=============================================================================="
 	@echo "⚠️  CRITICAL REQUIREMENT:"
 	@echo "   If configuring a node step-by-step, you MUST run targets in sequential"
-	@echo "   order (1 -> 2 -> 3 -> 4 -> 5, followed by 6 & 7 if an NVIDIA GPU is present)."
+	@echo "   order (1 -> 2 -> 3 -> 4 -> 5 -> 8 -> 9, plus 6 & 7 if an NVIDIA GPU is present)."
 	@echo "   Running steps out of order will cause dependency failures (e.g. LDAP/NFS)."
 	@echo "=============================================================================="
 	@echo "💡 Examples:"
 	@echo "   sudo make install"
 	@echo "   sudo make network"
 	@echo "   sudo make base"
+	@echo "   sudo make slurm-client"
+	@echo "   sudo make dev-tools"
 	@echo "   make test-all"
-	@echo "   make test-step STEP=04"
+	@echo "   make test-step STEP=08"
 	@echo "=============================================================================="
 
 .PHONY: check-root
@@ -75,7 +83,7 @@ check-root:
 	fi
 
 .PHONY: install
-install: check-root ## Run complete automated installation (steps 1 through 7)
+install: check-root ## Run complete automated installation (steps 1 through 9)
 	@if [ -t 0 ]; then \
 		echo -e "$(C_BOLD)==============================================================================$(C_RESET)"; \
 		echo -e "$(C_CYAN)$(C_BOLD)🏢 LPS / UFRJ - Full Bancada Workstation Setup$(C_RESET)"; \
@@ -92,30 +100,37 @@ install: check-root ## Run complete automated installation (steps 1 through 7)
 	echo -e "$(C_BOLD)Target Node:$(C_RESET) $$TARGET_HOSTNAME | $(C_BOLD)IP:$(C_RESET) $$TARGET_IP"; \
 	echo "=============================================================================="; \
 	echo ""; \
-	echo ">> Step 1/7: Network & Hostname Configuration"; \
+	echo ">> Step 1/9: Network & Hostname Configuration"; \
 	./$(SCRIPTS_DIR)/01_setup_network.sh "$$TARGET_IP" "$$TARGET_HOSTNAME"; \
 	echo ""; \
-	echo ">> Step 2/7: Base Packages, NFS Storage & Authentication"; \
+	echo ">> Step 2/9: Base Packages, NFS Storage & Authentication"; \
 	./$(SCRIPTS_DIR)/02_install_base.sh; \
 	echo ""; \
-	echo ">> Step 3/7: Docker CE & Services"; \
+	echo ">> Step 3/9: Docker CE & Services"; \
 	./$(SCRIPTS_DIR)/03_install_docker.sh; \
 	echo ""; \
-	echo ">> Step 4/7: SingularityCE & Domain Fakeroot"; \
+	echo ">> Step 4/9: SingularityCE & Domain Fakeroot"; \
 	./$(SCRIPTS_DIR)/04_install_singularity.sh; \
 	echo ""; \
-	echo ">> Step 5/7: GDM Login Screen Customization"; \
+	echo ">> Step 5/9: GDM Login Screen Customization"; \
 	./$(SCRIPTS_DIR)/05_custom_login_screen.sh; \
 	echo ""; \
 	if lspci 2>/dev/null | grep -i nvidia >/dev/null; then \
-		echo ">> Step 6/7: NVIDIA Driver & CUDA Toolkit"; \
+		echo ">> Step 6/9: NVIDIA Driver & CUDA Toolkit"; \
 		./$(SCRIPTS_DIR)/06_install_cuda.sh; \
 		echo ""; \
-		echo ">> Step 7/7: NVIDIA Container Toolkit for Docker"; \
+		echo ">> Step 7/9: NVIDIA Container Toolkit for Docker"; \
 		./$(SCRIPTS_DIR)/07_configure_docker_gpu_toolkit.sh; \
+		echo ""; \
 	else \
 		echo "ℹ️  No NVIDIA GPU detected. Skipping Step 6 (CUDA) and Step 7 (GPU Toolkit)."; \
+		echo ""; \
 	fi; \
+	echo ">> Step 8/9: SLURM Client Configuration (Cluster Submitter)"; \
+	./$(SCRIPTS_DIR)/08_install_slurm_client.sh; \
+	echo ""; \
+	echo ">> Step 9/9: Developer Tools (VSCode & Antigravity)"; \
+	./$(SCRIPTS_DIR)/09_install_dev_tools.sh; \
 	echo ""; \
 	echo "=============================================================================="; \
 	echo "🎉 Installation completed successfully!"; \
@@ -174,9 +189,58 @@ cuda: check-root ## [Step 6] Install NVIDIA Drivers and CUDA Toolkit (if GPU pre
 gpu-toolkit: check-root ## [Step 7] Configure NVIDIA Container Toolkit for Docker (if GPU present)
 	@./$(SCRIPTS_DIR)/07_configure_docker_gpu_toolkit.sh
 
+.PHONY: slurm-client
+slurm-client: check-root ## [Step 8] Configure SLURM client & munge key for cluster job submission
+	@./$(SCRIPTS_DIR)/08_install_slurm_client.sh
+
+.PHONY: slurm
+slurm: slurm-client ## [ALIAS] Alias for slurm-client
+
+.PHONY: dev-tools
+dev-tools: check-root ## [Step 9] Install developer tools (Visual Studio Code & Google Antigravity)
+	@./$(SCRIPTS_DIR)/09_install_dev_tools.sh
+
+.PHONY: vscode
+vscode: dev-tools ## [ALIAS] Alias for dev-tools
+
 .PHONY: fakeroot
 fakeroot: check-root ## [UTIL] Re-sync fakeroot permissions for domain accounts in LDAP
 	@./$(SCRIPTS_DIR)/04_install_singularity.sh --fakeroot-only
+
+.PHONY: motd welcome
+motd: check-root ## [UTIL] Update or re-install the workstation welcome banner (MOTD)
+	@mkdir -p /etc/update-motd.d /etc/profile.d
+	@if [ -f files/00-main-message ]; then \
+		cp files/00-main-message /etc/update-motd.d/00-main-message; \
+		chmod +x /etc/update-motd.d/00-main-message; \
+		chmod -x /etc/update-motd.d/00-header 2>/dev/null || true; \
+		chmod -x /etc/update-motd.d/10-help-text 2>/dev/null || true; \
+		chmod -x /etc/update-motd.d/50-motd-news 2>/dev/null || true; \
+		if ! grep -q "00-main-message" /etc/bash.bashrc 2>/dev/null; then \
+			echo "" >> /etc/bash.bashrc; \
+			echo "# LPS / UFRJ - Workstation Welcome Banner" >> /etc/bash.bashrc; \
+			echo 'if [ -n "$$PS1" ] && [ -x /etc/update-motd.d/00-main-message ]; then' >> /etc/bash.bashrc; \
+			echo '    if [ -z "$${SSH_CONNECTION:-}" ] && [ -z "$${LPS_MOTD_SHOWN:-}" ]; then' >> /etc/bash.bashrc; \
+			echo '        export LPS_MOTD_SHOWN=1' >> /etc/bash.bashrc; \
+			echo '        /etc/update-motd.d/00-main-message' >> /etc/bash.bashrc; \
+			echo '    fi' >> /etc/bash.bashrc; \
+			echo 'fi' >> /etc/bash.bashrc; \
+		fi; \
+		echo '# Show LPS welcome banner in login shell sessions' > /etc/profile.d/00-lps-welcome.sh; \
+		echo 'if [ -n "$$PS1" ] && [ -x /etc/update-motd.d/00-main-message ] && [ -z "$${LPS_MOTD_SHOWN:-}" ]; then' >> /etc/profile.d/00-lps-welcome.sh; \
+		echo '    export LPS_MOTD_SHOWN=1' >> /etc/profile.d/00-lps-welcome.sh; \
+		echo '    /etc/update-motd.d/00-main-message' >> /etc/profile.d/00-lps-welcome.sh; \
+		echo 'fi' >> /etc/profile.d/00-lps-welcome.sh; \
+		chmod 644 /etc/profile.d/00-lps-welcome.sh; \
+		echo "✅ MOTD banner updated successfully! Previewing banner:"; \
+		echo ""; \
+		/etc/update-motd.d/00-main-message; \
+	else \
+		echo "❌ files/00-main-message not found."; \
+		exit 1; \
+	fi
+
+welcome: motd ## [ALIAS] Alias for motd
 
 .PHONY: reboot
 reboot: check-root ## Reboot the node to apply kernel and service updates
